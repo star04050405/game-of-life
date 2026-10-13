@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>人生游戏及其玩法 · 全书导读</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="人生游戏">
+<meta name="theme-color" content="#203A5C">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{
+  --bg:#203A5C; --bg2:#1A314E; --ink:#F2F4F8; --dim:#93A6BE; --line:rgba(242,244,248,.16);
+  --gold:#E8B93D; --card:rgba(255,255,255,.05);
+  --sans:"Helvetica Neue","Avenir Next","PingFang SC","Microsoft YaHei",sans-serif;
+  --disp:"Arial Black","Helvetica Neue","PingFang SC",sans-serif;
+  --serif:"Georgia","Songti SC","STSong",serif;
+  --mono:ui-monospace,"Courier New",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:linear-gradient(178deg,var(--bg) 0%,var(--bg2) 100%);color:var(--ink);font-family:var(--sans);max-width:640px;margin:0 auto;padding:0 20px 100px;-webkit-font-smoothing:antialiased;position:relative}
+.dots{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5}
+.dot{position:absolute;border-radius:50%}
+header,.ch,footer,.prog{position:relative;z-index:1}
+header{padding:48px 0 6px}
+.kick{font-family:var(--mono);font-size:10px;letter-spacing:.3em;color:var(--dim);text-transform:uppercase}
+.cover{width:min(300px,74vw);aspect-ratio:145/210;margin:24px auto 0;background:#25476A;border:1px solid rgba(242,244,248,.25);border-radius:4px;box-shadow:0 20px 50px rgba(0,0,0,.35),0 3px 10px rgba(0,0,0,.2);position:relative;display:flex;flex-direction:column;padding:10% 9%;overflow:hidden}
+.cover .ed{font-family:var(--mono);font-size:8px;letter-spacing:.2em;color:var(--dim);text-align:center}
+.cover .big{font-family:var(--disp);font-size:clamp(34px,11.5vw,46px);line-height:1.14;letter-spacing:.02em;margin-top:9%;white-space:nowrap}
+.cover .big2{font-family:var(--disp);font-size:clamp(20px,6.6vw,26px);letter-spacing:.04em;line-height:1.5}
+.cover .au{margin-top:auto;font-family:var(--sans);font-weight:800;font-size:clamp(11px,3.4vw,14px);color:var(--gold);letter-spacing:.05em;text-align:center}
+.cover .au small{display:block;font-weight:400;font-size:8px;letter-spacing:.16em;color:var(--dim);margin-top:5px}
+.cd{position:absolute;border-radius:50%}
+.bookmeta{margin-top:28px;text-align:center}
+.bookmeta .tag{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:var(--gold);border:1px solid rgba(232,185,61,.45);border-radius:99px;padding:3px 12px;margin-bottom:12px}
+.bookmeta h1{font-family:var(--disp);font-size:21px;letter-spacing:.03em}
+.bookmeta p{font-size:12.5px;color:var(--dim);margin-top:7px;line-height:1.9}
+.prog{display:flex;align-items:center;gap:12px;margin:26px 0 4px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim)}
+.prog .bar{flex:1;height:2px;background:var(--line);border-radius:2px;overflow:hidden}
+.prog .bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .5s ease}
+.ch-h{display:flex;align-items:center;gap:14px;padding:17px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.ch-h .no{font-family:var(--mono);font-size:11px;color:var(--dim);width:30px;flex:none;transition:color .3s}
+.ch-h .body{flex:1;min-width:0}
+.ch-h .t{font-family:var(--disp);font-size:15.5px;letter-spacing:.02em}
+.ch-h .s{font-size:11px;color:var(--dim);margin-top:3px;letter-spacing:.05em}
+.ch-h .pg{font-family:var(--mono);font-size:9.5px;color:var(--dim);flex:none}
+.ch.done .no{color:var(--gold)}
+.ch.done .pg{color:var(--gold)}
+.reader{position:fixed;inset:0;z-index:900;background:var(--bg2);transform:translateY(102%);transition:transform .42s cubic-bezier(.32,1,.38,1);overflow-y:auto;padding-bottom:60px}
+.reader.show{transform:none}
+.r-top{position:sticky;top:0;background:linear-gradient(var(--bg2) 82%,transparent);padding:18px 20px 12px;display:flex;align-items:center;justify-content:space-between;z-index:5;max-width:640px;margin:0 auto}
+.r-back{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;color:var(--dim);background:none;border:1px solid var(--line);border-radius:99px;padding:8px 16px;cursor:pointer}
+.r-no{font-family:var(--mono);font-size:10px;letter-spacing:.24em;color:var(--gold)}
+.r-in{max-width:640px;margin:0 auto;padding:8px 22px 0}
+.r-t{font-family:var(--disp);font-size:24px;margin:10px 0 6px;line-height:1.35}
+.r-en{font-family:var(--serif);font-style:italic;font-size:13px;color:var(--dim);letter-spacing:.06em;margin-bottom:18px}
+.r-p{font-size:14.5px;line-height:2.1;color:#DDE3EC;margin-bottom:16px}
+.r-p b{color:#fff}
+.r-quote{font-family:var(--serif);font-style:italic;font-size:16.5px;line-height:1.9;color:#fff;border-left:3px solid var(--gold);padding:4px 0 4px 16px;margin:22px 0}
+.r-h{font-family:var(--mono);font-size:10px;letter-spacing:.28em;color:var(--gold);margin:28px 0 12px}
+.list li{font-size:13.5px;line-height:2.1;color:#DDE3EC;list-style:none;padding-left:20px;position:relative}
+.list li::before{content:"—";position:absolute;left:0;color:var(--gold)}
+.try{border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--card);margin:20px 0 6px}
+.try .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;color:var(--gold);margin-bottom:8px}
+.try p{font-size:13px;line-height:1.95;color:#DDE3EC}
+.mark-btn{display:block;width:100%;margin:32px 0 8px;padding:15px;border-radius:99px;border:none;background:var(--gold);color:#1A2B44;font-family:var(--sans);font-weight:800;font-size:14.5px;letter-spacing:.14em;cursor:pointer}
+.mark-btn.did{background:none;border:1px solid var(--gold);color:var(--gold)}
+.r-nav{display:flex;gap:10px;margin-top:12px}
+.r-nav button{flex:1;padding:13px;border-radius:12px;border:1px solid var(--line);background:none;color:var(--dim);font-family:var(--sans);font-size:12.5px;letter-spacing:.1em;cursor:pointer}
+.r-nav button:disabled{opacity:.3}
+.badge{position:fixed;inset:0;z-index:950;background:rgba(10,20,36,.72);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s;padding:24px}
+.badge.show{opacity:1;pointer-events:auto}
+.badge-card{background:#25476A;border:2px solid var(--gold);border-radius:16px;max-width:330px;width:100%;padding:36px 26px;text-align:center;box-shadow:0 0 70px rgba(232,185,61,.16)}
+.badge-card .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;color:var(--gold)}
+.badge-card .big{font-family:var(--disp);font-size:25px;margin:13px 0 10px;line-height:1.3}
+.badge-card p{font-size:12.5px;color:var(--dim);line-height:1.95}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:9.5px;color:var(--dim);line-height:2.1;letter-spacing:.08em}
+.cfp{position:fixed;width:8px;height:8px;border-radius:50%;z-index:960;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="dots" id="dots"></div>
+<header>
+  <div class="kick">FLORENCE SCOVEL SHINN · 1925</div>
+  <div class="cover" id="cover">
+    <div class="ed">THE COMPLETE & ORIGINAL EDITION</div>
+    <div class="big">人生游戏</div>
+    <div class="big2">及其玩法</div>
+    <div class="au">FLORENCE SCOVEL SHINN<small>弗洛伦丝 · 斯卡维尔 · 希恩</small></div>
+  </div>
+  <div class="bookmeta">
+    <span class="tag">书系 · 全书导读</span>
+    <h1>人生游戏及其玩法</h1>
+    <p>显化思想的百年源头 · 1925 年出版<br>人生是一场游戏——先懂规则，才能玩好</p>
+  </div>
+  <div class="prog">
+    <span id="pTxt">导读 0 / 10</span>
+    <div class="bar"><i id="pBar"></i></div>
+  </div>
+</header>
+<div id="ch"></div>
+<footer>/// The Game of Life and How to Play It · 汤姆·克里斯·金特罗 扩展版<br>/// 导读进度保存在本机 · 建议配合原书食用</footer>
+<div class="reader" id="reader"></div>
+<div class="badge" id="badge">
+  <div class="badge-card">
+    <div class="k">READING COMPLETE</div>
+    <div class="big">规则已收到，<br>轮到你出牌。</div>
+    <p>十章全部读完。人生这场游戏，<br>从你说出的下一句话开始。</p>
+    <div style="margin-top:16px"><span class="r-back" style="pointer-events:auto" onclick="document.getElementById('badge').classList.remove('show')">收下</span></div>
+  </div>
+</div>
+<script>
+const PALETTE = ["#E85D75","#F2C14E","#7FC8A9","#6FA8DC","#E8A04C","#C77DBA","#8FD3D6"];
+function paintDots(){
+  const box = document.getElementById("dots");
+  let html = "";
+  const N = 46;
+  for(let i=0;i<N;i++){
+    const sz = 3+Math.random()*7;
+    html += `<div class="dot" style="left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${PALETTE[i%7]};opacity:${.25+Math.random()*.5}"></div>`;
+  }
+  box.innerHTML = html;
+  const cov = document.getElementById("cover");
+  let ch = "";
+  for(let i=0;i<26;i++){
+    const sz = 3+Math.random()*8;
+    ch += `<div class="cd" style="left:${5+Math.random()*90}%;top:${4+Math.random()*92}%;width:${sz}px;height:${sz}px;background:${PALETTE[i%7]};opacity:${.5+Math.random()*.5}"></div>`;
+  }
+  cov.insertAdjacentHTML("beforeend", ch);
+}
+const CH = [
+{no:"01", t:"游戏", en:"The Game", s:"人生是一场游戏，先懂规则",
+ p:["希恩开篇说：人生是一场游戏——像棋类一样，有规则。不懂规则的人反复输掉，还以为是命运针对他。",
+   "但这场游戏的规则不在外部世界，而在心灵：你在想象里画什么，说出什么，感受什么，就在生活里收获什么。想象、言语、感觉，是你的三枚棋子。"],
+ q:"「人生是一场游戏，不先学会规则，就没法玩好。」",
+ try:"回想最近一次「不顺」——当时你心里的画面和嘴里念叨的是什么？"},
+{no:"02", t:"丰盛法则", en:"The Law of Prosperity", s:"你的默认状态是丰足",
+ p:["恐惧和丰盛不能同时占据一颗心。希恩发现人们嘴上要钱，心里却贴满「钱不够」「我不配」的标签——潜意识忠实地执行这些标签。",
+   "丰盛不是求来的，是允许进来的。先把「稀缺的心」换成「供应的预期」，机会和资源会顺着新的频道找到你。"],
+ q:"「你的供应跟在你的信念后面走。」",
+ try:"今天说一句：「我的供应来自无限源，想要的正在路上。」"},
+{no:"03", t:"言语的力量", en:"The Power of the Word", s:"你的话，是你的魔杖",
+ p:["全书最著名的法则。每个字都在塑形你的世界：说出恐惧，就召来恐惧；说出所愿，就是在向宇宙下订单。",
+   "书里的经典案例：一位学生拖欠房租一百美元，希恩教她反复宣告「大笔金钱现在向我涌来」——几天后，钱以她完全没想到的方式抵达。这不是魔法，是把注意力从「怕」校准到「迎」。"],
+ q:"「Your word is your wand——你的话，就是你的魔杖。」",
+ try:"写下你今年最想实现的一件事，用「我已经拥有」的句式说出来，每天一次。"},
+{no:"04", t:"不抵抗法则", en:"The Law of Nonresistance", s:"别把障碍钉得更牢",
+ p:["与困难硬碰硬，等于反复向潜意识确认「困难很大」。希恩说：抵抗把障碍钉得更牢。",
+   "不抵抗不是躺平，而是不喂养问题——把注意力从「对抗什么」移到「创造什么」。水遇到石头，从不停下来争论，只是继续往要去的地方流。"],
+ q:"「水从不与石头角力，水只管流。」",
+ try:"下次想跟人争对错时，先问自己：我要赢这一句，还是要去我要去的地方？"},
+{no:"05", t:"回力镖与宽恕", en:"Karma & Forgiveness", s:"给出去的，都会回来",
+ p:["人生是一场回力镖游戏：你扔出去的思想、言语、行为，都会转弯回来落在你身上。所以刻薄的人总遇见刻薄，慷慨的人总被世界接住。",
+   "而不宽恕，是手里攥着烧红的炭想烫别人——先烫伤的是自己的手。宽恕不是放过对方，是松开自己的手，让祝福的管道重新通畅。"],
+ q:"「不宽恕的人，先堵住的是自己的好运。」",
+ try:"在心里给某个一直过不去的人说一句：我把这件事放下了，把我的自由还给我。"},
+{no:"06", t:"卸下重担", en:"Casting the Burden", s:"把包袱交给更高的智慧",
+ p:["潜意识像土壤：你反复担忧，它就种出担忧的现实；你郑重地交托，它就替你寻找路径。",
+   "希恩教「卸下」的练习：睡前把最重的那件事说给内在的智慧听——「这件事我交给你了」——然后真的停止反刍。梦里和清晨的第一念，常常就是答案。"],
+ q:"「把重担交出去，然后轻装走路。」",
+ try:"睡前挑一件最重的事，默念「我把它交出去了」，连说七天。"},
+{no:"07", t:"爱", en:"Love", s:"恐惧的反义词",
+ p:["「爱里没有惧怕。」希恩把爱当作最强的心灵状态：对工作投入爱，工作顺；对人投出善意，路就宽；对自己多一点温柔，运气跟着松绑。",
+   "相反，恨与怨像胶水，把人钉在原地。她见过太多人不是被对手困住，而是被自己反复咀嚼的委屈困住。"],
+ q:"「恨把人钉在原地，爱让人上路。」"},
+{no:"08", t:"直觉指引", en:"Intuition or Guidance", s:"比头脑更高的频道",
+ p:["直觉是高于推理的心灵官能。头脑算逻辑，直觉给方向——它常常是安静下来的第一念，而不是反复权衡的结论。",
+   "希恩的建议：遇到岔路，先静默，然后问「这件事该怎么做」，相信浮起的第一画面。直觉替你省下的，往往是几个月的弯路。"],
+ q:"「直觉是高于头脑的心灵官能。」",
+ try:"小事上练习跟直觉：第一家想进店、第一个想到的名字，先信一次。"},
+{no:"09", t:"神圣设计", en:"Perfect Self-Expression", s:"你有一个独一无二的位置",
+ p:["每个人都有一个「神圣设计」——一个只有你能站的位置、只有你能做的事。找到它的人，努力像呼吸一样自然；站错赛道的人，再拼命也别扭。",
+   "所以不必嫉妒任何人的赛道。你的对标对象只有一个：那个正在做你真正该做之事的自己。"],
+ q:"「你要找的位置，世界上没有任何人能替你站。」"},
+{no:"10", t:"否定与肯定", en:"Denials and Affirmations", s:"工具箱 · 把方法用起来",
+ p:["最后一章是实操：否定（Denial）是拆旧的——把「我不行、不可能、我匮乏」从心里宣告作废；肯定（Affirmation）是立新的——用现在时宣告你想要的现实。"],
+ h:"/// 原书经典肯定语（可每天念）",
+ list:["没有什么好得不真实。/ Nothing is too good to be true.","匮乏与限制之墙，正在消融。/ The walls of lack now dissolve.","神圣秩序，已在我的身心与事务中建立。/ Divine order is established.","我把这重担交托于内在的力量，我自由了。/ I cast the burden and I go free.","喜悦、健康、丰盛，此刻正在涌向我。/ Joy, health and abundance are flowing."],
+ try:"选一句抄下来贴在镜子上，每天早晨念一遍——用原书的话说：你的话就是魔杖。"}
+];
+const KEY="gol_read", BK="gol_badge";
+let read = JSON.parse(localStorage.getItem(KEY)||"{}");
+function save(){ localStorage.setItem(KEY, JSON.stringify(read)); }
+function render(){
+  const n = Object.values(read).filter(Boolean).length;
+  document.getElementById("pTxt").textContent = `导读 ${n} / 10`;
+  document.getElementById("pBar").style.width = (n/10*100)+"%";
+  document.getElementById("ch").innerHTML = CH.map((c,i)=>
+   `<div class="ch ${read[i]?"done":""}">
+      <div class="ch-h" onclick="openCh(${i})">
+        <span class="no">No.${c.no}</span>
+        <div class="body"><div class="t">${c.t}</div><div class="s">${c.s}</div></div>
+        <span class="pg">${read[i]?"已读 · ":""}${c.en}</span>
+      </div>
+    </div>`).join("");
+}
+let cur=0;
+function openCh(i){
+  cur=i; const c=CH[i]; const r=document.getElementById("reader");
+  r.innerHTML = `
+   <div class="r-top"><button class="r-back" onclick="closeCh()">← 目录</button><span class="r-no">No.${c.no} · ${c.en}</span></div>
+   <div class="r-in">
+     <div class="r-t">${c.t}</div>
+     <div class="r-en">Chapter ${parseInt(c.no)} — ${c.en}</div>
+     ${c.p.map(x=>`<p class="r-p">${x}</p>`).join("")}
+     ${c.q?`<div class="r-quote">"${c.q}"</div>`:""}
+     ${c.h?`<div class="r-h">${c.h}</div>`:""}
+     ${c.list?`<ul class="list">${c.list.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}
+     ${c.try?`<div class="try"><div class="k">/// 试一试</div><p>${c.try}</p></div>`:""}
+     <button class="mark-btn ${read[i]?"did":""}" onclick="tg(${i})">${read[i]?"✓ 这一章读过了":"读完这一章"}</button>
+     <div class="r-nav">
+       <button onclick="openCh(${i-1})" ${i===0?"disabled":""}>← 上一章</button>
+       <button onclick="openCh(${i+1})" ${i===9?"disabled":""}>下一章 →</button>
+     </div>
+   </div>`;
+  r.classList.add("show"); r.scrollTop=0;
+}
+function closeCh(){ document.getElementById("reader").classList.remove("show"); render(); }
+function tg(i){
+  read[i]=true; save();
+  const b=document.querySelector(".mark-btn"); b.classList.add("did"); b.textContent="✓ 这一章读过了";
+  if(Object.values(read).filter(Boolean).length===10 && !localStorage.getItem(BK)){
+    localStorage.setItem(BK,"1");
+    setTimeout(()=>{ document.getElementById("badge").classList.add("show"); confetti(); },420);
+  }
+}
+function confetti(){
+  for(let i=0;i<30;i++){
+    const c=document.createElement("div"); c.className="cfp";
+    c.style.background=PALETTE[i%7];
+    c.style.left=(30+Math.random()*40)+"vw"; c.style.top=(26+Math.random()*18)+"vh";
+    c.style.width=c.style.height=(6+Math.random()*7)+"px";
+    document.body.appendChild(c);
+    const dx=(Math.random()-.5)*300, dy=120+Math.random()*260, rot=Math.random()*720-360;
+    c.animate([{transform:"none",opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${rot}deg)`,opacity:0}],
+      {duration:1100+Math.random()*700, easing:"cubic-bezier(.2,.7,.4,1)"}).onfinish=()=>c.remove();
+  }
+}
+paintDots(); render();
+</script>
+</body>
+</html>
